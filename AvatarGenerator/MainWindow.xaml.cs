@@ -25,7 +25,7 @@ namespace AvatarGenerator
     /// </summary>
     public partial class MainWindow : Window
     {
-        Timer t = new Timer(60000);
+        Timer t = new Timer(180000);
 
         public MainWindow()
         {
@@ -80,8 +80,17 @@ namespace AvatarGenerator
             var raw = wc.DownloadData("http://t.weather.sojson.com/api/weather/city/101020100");
             var json = Encoding.UTF8.GetString(raw);
             JObject obj = JObject.Parse(json);
-            var data = obj["data"]["forecast"][0];
-            return $"{data["week"]}    {data["type"]}    {data["notice"]}";
+            var forecast = obj["data"]["forecast"];
+            var result = "";
+            foreach (var f in forecast)
+            {
+                if (f["date"].ToString() == DateTime.Now.Date.Day.ToString())
+                {
+                    result = $"{f["week"]}    {f["type"]}    {f["notice"]}";
+                    break;
+                }
+            }
+            return result;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
