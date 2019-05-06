@@ -84,7 +84,7 @@ namespace AvatarGenerator
             var result = "";
             foreach (var f in forecast)
             {
-                if (f["date"].ToString() == DateTime.Now.Date.Day.ToString())
+                if (f["date"].ToString().TrimStart('0') == DateTime.Now.Date.Day.ToString())
                 {
                     result = $"{f["week"]}    {f["type"]}    {f["notice"]}";
                     break;
